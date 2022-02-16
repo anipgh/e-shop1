@@ -1,4 +1,4 @@
-package com.eshop.demo.model;
+package com.eshop.demo.model.dao;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * @author Siranush Karapetyan [a625929] on 14/02/2022
+ * @author Ani Poghosyan on 14/02/2022
  */
 @Entity
 public class Product {
@@ -16,12 +16,12 @@ public class Product {
     private String name;
     private String catagory;
     private String madein;
-    private float price;
+    private int price;
 
     public Product() {
     }
 
-    protected Product(Long id, String name, String brand, String madein, float price) {
+    protected Product(Long id, String name, String brand, String madein, int price) {
         super();
         this.id = id;
         this.name = name;
@@ -48,12 +48,12 @@ public class Product {
         this.name = name;
     }
 
-    public String getBrand() {
+    public String getCatagory() {
         return catagory;
     }
 
-    public void setBrand(String brand) {
-        this.catagory = brand;
+    public void setCatagory(String catagory) {
+        this.catagory = catagory;
     }
 
     public String getMadein() {
@@ -64,11 +64,11 @@ public class Product {
         this.madein = madein;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice (int price) {
         this.price = price;
     }
 

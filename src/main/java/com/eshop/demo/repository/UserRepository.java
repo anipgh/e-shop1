@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 /**
- * @author Siranush Karapetyan [a625929] on 14/02/2022
+ * @author Ani Poghosyan on 14/02/2022
  */
 public interface UserRepository extends CrudRepository<User,Long> {
 

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author Siranush Karapetyan [a625929] on 14/02/2022
+ * @author Ani Poghosyan on 14/02/2022
  */
 public class MyUserDetails implements UserDetails {
 

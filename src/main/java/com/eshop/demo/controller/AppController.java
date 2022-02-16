@@ -1,6 +1,6 @@
 package com.eshop.demo.controller;
 
-import com.eshop.demo.model.Product;
+import com.eshop.demo.model.dao.Product;
 import com.eshop.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,14 +14,14 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 /**
- * @author Siranush Karapetyan [a625929] on 14/02/2022
+ * @author Ani Poghosyan on 14/02/2022
  */
 @Controller
 public class AppController {
     @Autowired
     private ProductService service;
 
-    @RequestMapping("/")
+    @RequestMapping("/list")
     public String viewHomePage(Model model) {
         List<Product> listProducts = service.listAll();
         model.addAttribute("listProducts", listProducts);
@@ -37,27 +37,62 @@ public class AppController {
         return "new_product";
     }
 
-    @RequestMapping(value = "/saveproduct", method = RequestMethod.POST)
+
+    //@RequestMapping(value = "/save", method = RequestMethod.POST)
+   // public String saveProduct(@ModelAttribute("product") com.eshop.demo.model.dto.Product product) {
+      //  if(product.getId() == null) {
+         //   Product productDao = new Product();
+           // productDao.setCatagory(product.getCatagory());
+           // productDao.setMadein(product.getMadein());
+           // productDao.setName(product.getName());
+           // productDao.setPrice(product.getPrice());
+           // service.save(productDao);
+       // }
+       // return "/";
+    //}
+
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveProduct(@ModelAttribute("product") Product product) {
         service.save(product);
 
-        return "redirect:/";
+        return "index";
     }
+
 
     @RequestMapping("/edit/{id}")
     public ModelAndView showEditProductForm(@PathVariable(name = "id") Long id) {
-        ModelAndView mav = new ModelAndView("edit_product");
+        ModelAndView mav = new ModelAndView("show_edit_product");
 
         Product product = service.get(id);
-        mav.addObject("product", product);
+        com.eshop.demo.model.dto.Product productDto = new com.eshop.demo.model.dto.Product();
+        productDto.setId(id);
+        productDto.setCatagory(product.getCatagory());
+        productDto.setMadein(product.getMadein());
+        productDto.setName(product.getName());
+        productDto.setPrice(product.getPrice());
+        mav.addObject("product", productDto);
 
         return mav;
     }
 
-    @RequestMapping("/delete/{id}")
+    @RequestMapping(value = "/edit", method = RequestMethod.PUT)
+    public String editProduct(@ModelAttribute("product") com.eshop.demo.model.dto.Product product) {
+        Product productDao = service.get(product.getId());
+        if(productDao!= null){
+            productDao.setCatagory(product.getCatagory());
+            productDao.setMadein(product.getMadein());
+            productDao.setName(product.getName());
+            productDao.setPrice(product.getPrice());
+            service.save(productDao);
+        }
+
+        return "/";
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public String deleteProduct(@PathVariable(name = "id") Long id) {
         service.delete(id);
 
-        return "redirect:/";
+        return "/";
     }
 }

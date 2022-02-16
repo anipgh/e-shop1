@@ -8,13 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * @author Siranush Karapetyan [a625929] on 14/02/2022
+ * @author Ani Poghosyan on 14/02/2022
  */
 @Entity
 @Table(name = "roles")
 public class Role {
     @Id
-    @Column(name = "roles")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;

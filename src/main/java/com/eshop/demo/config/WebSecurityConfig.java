@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * @author Siranush Karapetyan [a625929] on 14/02/2022
+ * @author Ani Poghosyan on 14/02/2022
  */
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -35,25 +35,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
-    }
 
     @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .passwordEncoder(new BCryptPasswordEncoder())
+                .withUser("user")
+                .password("password")
+                .roles("USER")
+                .and()
+                .withUser("admin")
+                .password("adminpass")
+                .roles("ADMIN")
+        ;
+    }
+
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/").hasAnyAuthority("USER",  "ADMIN")
-                .antMatchers("/new").hasAnyAuthority("ADMIN")
-                .antMatchers("/edit/**").hasAnyAuthority("ADMIN")
-                .antMatchers("/delete/**").hasAuthority("ADMIN")
+                .antMatchers("/").permitAll()
+                .antMatchers("/new").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/edit/*", "/delete/*").hasAnyRole("ADMIN","USER")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().permitAll()
-                .and()
-                .logout().permitAll()
+                .httpBasic()
                 .and()
                 .exceptionHandling().accessDeniedPage("/403")
-        ;
+                .and()
+                .csrf().disable();
     }
 }

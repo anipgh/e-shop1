@@ -1,6 +1,6 @@
 package com.eshop.demo.service;
 
-import com.eshop.demo.model.Product;
+import com.eshop.demo.model.dao.Product;
 import com.eshop.demo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author Siranush Karapetyan [a625929] on 14/02/2022
+ * @author Ani Poghosyan on 14/02/2022
  */
 @Service
 public class ProductService {
